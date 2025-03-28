@@ -31,8 +31,18 @@ public class JDBCModifyTest {
             }
 
             String sql = "UPDATE article";
-            sql += " SET title = ?, `body` = ? ";
+            sql += " SET title = ?, ";
+            sql += "`body` = ?, ";
             sql += " WHERE id = ? ";
+
+            // if(title.length > 0) {
+            //  sql += '', title= '" + title +"'";
+            // }
+            // if(body.length >0) {
+            //  sql += ", body = '" + body + "'";
+            // }
+            // sql += " WHERE id = " + id + ";";
+
 
             System.out.println(sql);
 

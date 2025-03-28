@@ -126,11 +126,12 @@ public class Main {
             }
             else if (cmd.startsWith("article modify")) {
 
+                int id = Integer.parseInt(cmd.split(" ")[2]);
                 System.out.print("수정할 제목 : ");
                 String newTitle = sc.nextLine();
                 System.out.print("수정할 내용 : ");
                 String newbody = sc.nextLine();
-                int id = Integer.parseInt(cmd.split(" ")[2]);
+
 
                 Connection conn = null;
                 PreparedStatement pstmt = null;
