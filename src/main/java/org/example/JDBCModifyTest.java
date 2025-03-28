@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class JDBCModifyTest {
     public static void main(String[] args) {
 
+        // 있는지 없는지?
+
         Scanner sc = new Scanner(System.in);
         System.out.print("수정할 제목 : ");
         String newTitle = sc.nextLine();
@@ -14,6 +16,8 @@ public class JDBCModifyTest {
         String newbody = sc.nextLine();
         System.out.println("어디를 수정할 건가? ");
         int id = sc.nextInt();
+
+        /// ////////
 
         Connection conn = null;
         PreparedStatement pstmt = null;
