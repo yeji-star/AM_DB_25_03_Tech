@@ -1,16 +1,14 @@
-package org.example;
+package org.example.test;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class JDBCSelectTest {
+public class JDBCInsertTest {
     public static void main(String[] args) {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        List<Article> list = new ArrayList<>();
 
         try {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -18,32 +16,17 @@ public class JDBCSelectTest {
             conn = DriverManager.getConnection(url, "root", "");
             System.out.println("연결 성공!");
 
-           String sql = "SELECT *";
-           sql += " FROM article";
-            sql += " ORDER BY id DESC";
+            String sql = "insert into article";
+            sql += " set title = concat('제목',substring(RAND() * 1000 from 1 for 2)),";
+            sql += "`body` = concat('내용',substring(RAND() * 1000 from 1 for 2));";
 
             System.out.println(sql);
 
             pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery(sql);
 
-            while(rs.next()) {
-               int id = rs.getInt("id");
-               String title = rs.getString("title");
-               String body = rs.getString("body");
-               Article article = new Article(id, title, body);
+            int affectedRows = pstmt.executeUpdate();
 
-               list.add(article);
-            }
-
-            for(int i=0;i<list.size();i++) {
-                System.out.println(list.get(i).getId());
-                System.out.println(list.get(i).getTitle());
-                System.out.println(list.get(i).getBody());
-            }
-
-
-
+            System.out.println("affected rows: " + affectedRows);
 
         } catch (ClassNotFoundException e) {
             System.out.println("드라이버 로딩 실패" + e);
@@ -57,10 +40,14 @@ public class JDBCSelectTest {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            try {
+                if (pstmt != null && !pstmt.isClosed()) {
+                    pstmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
     }
-
-
 }
-
